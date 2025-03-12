@@ -42,9 +42,11 @@ public class LoginPage {
 
     public void login(String email,String password){
 
-
+        BrowserUtil.waitFor(4);
         emailBox.sendKeys(email);
+        BrowserUtil.waitFor(2);
         passwordBox.sendKeys(password);
+        BrowserUtil.waitFor(2);
         loginButton.click();
 
         BrowserUtil.waitFor(5);
