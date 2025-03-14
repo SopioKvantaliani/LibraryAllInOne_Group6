@@ -13,6 +13,7 @@ import io.restassured.response.Response;
 import io.restassured.response.ValidatableResponse;
 import io.restassured.specification.RequestSpecification;
 
+
 import static org.junit.Assert.*;
 
 import java.util.HashMap;
@@ -158,18 +159,22 @@ public class APIStepDefs {
 
         //Assert api and db
         assertEquals(apiBookInfo, dbBookInfo);
-        System.out.println("API" + apiBookInfo);
 
-        //NEED TO ADD UI ASSERTION!
-        DB_Util.runQuery("select isbn,B.name,author,C.name,YEAR,B.description\n" +
-                "from books B join book_categories C on B.book_category_id = C.id\n" +
-                "where B.id =" + bookId);
-        Map<String, Object> dbBookInfo2 = DB_Util.getRowMap(1);
-        System.out.println("dbBookInfo" + dbBookInfo2);
+        //get category name
+        DB_Util.runQuery("select book_categories.name from book_categories " +
+                "join books on book_categories.id = books.book_category_id where books.id=" + bookId);
+        String categoryName = DB_Util.getFirstRowFirstColumn();
 
 
+        //UI BOOK INFO MAP
         Map<String, Object> uiBookInfo = bookPageRomanL.bookInfoMap(bookName);
-        System.out.println("UIINFO" + uiBookInfo);
+        assertEquals(uiBookInfo.get("book_name"),dbBookInfo.get("name"));
+        assertEquals(uiBookInfo.get("isbn"),dbBookInfo.get("isbn"));
+        assertEquals(uiBookInfo.get("year"),dbBookInfo.get("year"));
+        assertEquals(uiBookInfo.get("author"),dbBookInfo.get("author"));
+        assertEquals(uiBookInfo.get("description"),dbBookInfo.get("description"));
+        assertEquals(uiBookInfo.get("category_name").toString(),categoryName);
+
 
 
         DB_Util.destroy();

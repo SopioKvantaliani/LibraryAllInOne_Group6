@@ -2,6 +2,7 @@ package com.library.pages;
 
 import com.library.utility.BrowserUtil;
 import com.library.utility.Driver;
+import io.cucumber.java.eo.Se;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -27,6 +28,9 @@ public class BookPageRomanL extends BasePage {
 
     @FindBy(xpath = "(//input[@type='text'])[4]")
     public WebElement author;
+
+    @FindBy(xpath = "(//input[@name='author'])")
+    public WebElement bookAuthor;
 
     @FindBy(xpath = "//div[@class='portlet-title']//a")
     public WebElement addBook;
@@ -65,21 +69,23 @@ public class BookPageRomanL extends BasePage {
         Map<String, Object> bookInfo = new LinkedHashMap<>();
         BrowserUtil.waitFor(2);
         search.sendKeys(newBookName);
-
-        BrowserUtil.waitFor(2);
-        bookInfo.put("book_name", bookName.getText());
-        BrowserUtil.waitFor(2);
-        bookInfo.put("author", author.getText());
-        BrowserUtil.waitFor(2);
-        bookInfo.put("year", year.getText());
         BrowserUtil.waitFor(2);
         editBook(newBookName).click();
+        BrowserUtil.waitForVisibility(bookName, 5);
+        bookInfo.put("book_name", bookName.getAttribute("value"));
+        BrowserUtil.waitForVisibility(isbn, 5);
+        bookInfo.put("isbn", isbn.getAttribute("value"));
+        BrowserUtil.waitForVisibility(year, 5);
+        bookInfo.put("year", year.getAttribute("value"));
+        BrowserUtil.waitForVisibility(bookAuthor, 5);
+        bookInfo.put("author", bookAuthor.getAttribute("value"));
+        BrowserUtil.waitForVisibility(description, 5);
+        bookInfo.put("description", description.getAttribute("value"));
         BrowserUtil.waitFor(2);
-        bookInfo.put("isbn", isbn.getText());
         Select select = new Select(categoryDropdown);
-        bookInfo.put("book_category", select.getFirstSelectedOption().getText());
-        BrowserUtil.waitFor(2);
-        bookInfo.put("description", description.getText());
+        bookInfo.put("category_name",select.getFirstSelectedOption().getText());
+
+
         return bookInfo;
     }
 
