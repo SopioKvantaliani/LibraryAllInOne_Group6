@@ -16,6 +16,7 @@ import io.restassured.specification.RequestSpecification;
 import static org.junit.Assert.*;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -157,11 +158,18 @@ public class APIStepDefs {
 
         //Assert api and db
         assertEquals(apiBookInfo, dbBookInfo);
-        System.out.println("API"+apiBookInfo);
+        System.out.println("API" + apiBookInfo);
 
         //NEED TO ADD UI ASSERTION!
-        Map<String,Object> uiBookInfo = bookPageRomanL.bookInfoMap(bookName);
-        System.out.println("UIINFO"+uiBookInfo);
+        DB_Util.runQuery("select isbn,B.name,author,C.name,YEAR,B.description\n" +
+                "from books B join book_categories C on B.book_category_id = C.id\n" +
+                "where B.id =" + bookId);
+        Map<String, Object> dbBookInfo2 = DB_Util.getRowMap(1);
+        System.out.println("dbBookInfo" + dbBookInfo2);
+
+
+        Map<String, Object> uiBookInfo = bookPageRomanL.bookInfoMap(bookName);
+        System.out.println("UIINFO" + uiBookInfo);
 
 
         DB_Util.destroy();

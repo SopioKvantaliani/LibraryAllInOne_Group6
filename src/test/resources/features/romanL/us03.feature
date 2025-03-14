@@ -1,6 +1,6 @@
 Feature: As a librarian, I want to create a new book
 
-  @ts
+  @rl
   Scenario: Create a new book API
     Given I logged Library api as a "librarian"_RL
     And Accept header is "application/json"_RL
@@ -14,7 +14,7 @@ Feature: As a librarian, I want to create a new book
 
 
 
- @ui @db @wip
+ @ui @db @wip @rl
   Scenario: Create a new book all layers
     Given I logged Library api as a "librarian"_RL
     And Accept header is "application/json"_RL

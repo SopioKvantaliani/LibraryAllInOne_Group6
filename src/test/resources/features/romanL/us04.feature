@@ -1,5 +1,5 @@
 Feature: As a librarian, I want to create a new user
-
+  @rl
   Scenario: Create a new user API
     Given I logged Library api as a "librarian"_RL
     And Accept header is "application/json"_RL
@@ -13,7 +13,7 @@ Feature: As a librarian, I want to create a new user
 
 
 
-  @db @ui
+  @db @ui @rl
   Scenario: Create a new user all layers
     Given I logged Library api as a "librarian"_RL
     And Accept header is "application/json"_RL

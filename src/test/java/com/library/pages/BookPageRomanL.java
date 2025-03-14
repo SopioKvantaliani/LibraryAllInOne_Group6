@@ -11,7 +11,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-public class BookPageRomanL extends BasePage{
+public class BookPageRomanL extends BasePage {
     @FindBy(xpath = "//table/tbody/tr")
     public List<WebElement> allRows;
 
@@ -51,8 +51,6 @@ public class BookPageRomanL extends BasePage{
     public WebElement description;
 
 
-
-
     public WebElement editBook(String book) {
         String xpath = "//td[3][.='" + book + "']/../td/a";
         return Driver.getDriver().findElement(By.xpath(xpath));
@@ -63,28 +61,27 @@ public class BookPageRomanL extends BasePage{
         return Driver.getDriver().findElement(By.xpath(xpath));
     }
 
-    public Map<String,Object> bookInfoMap(String newBookName){
-        Map<String,Object> bookInfo = new LinkedHashMap<>();
-        BrowserUtil.waitFor(5);
+    public Map<String, Object> bookInfoMap(String newBookName) {
+        Map<String, Object> bookInfo = new LinkedHashMap<>();
+        BrowserUtil.waitFor(2);
         search.sendKeys(newBookName);
-        BrowserUtil.waitFor(5);
+
+        BrowserUtil.waitFor(2);
+        bookInfo.put("book_name", bookName.getText());
+        BrowserUtil.waitFor(2);
+        bookInfo.put("author", author.getText());
+        BrowserUtil.waitFor(2);
+        bookInfo.put("year", year.getText());
+        BrowserUtil.waitFor(2);
         editBook(newBookName).click();
-        BrowserUtil.waitFor(5);
-        bookInfo.put("book_name",bookName.getText());
-        BrowserUtil.waitFor(5);
-        bookInfo.put("isbn",isbn.getText());
-        BrowserUtil.waitFor(5);
-        bookInfo.put("year",year.getText());
-        BrowserUtil.waitFor(5);
-        bookInfo.put("author",author.getText());
-        BrowserUtil.waitFor(5);
+        BrowserUtil.waitFor(2);
+        bookInfo.put("isbn", isbn.getText());
         Select select = new Select(categoryDropdown);
-        bookInfo.put("book_category",select.getFirstSelectedOption().getText());
-        BrowserUtil.waitFor(5);
-        bookInfo.put("description",description.getText());
+        bookInfo.put("book_category", select.getFirstSelectedOption().getText());
+        BrowserUtil.waitFor(2);
+        bookInfo.put("description", description.getText());
         return bookInfo;
     }
-
 
 
 }
